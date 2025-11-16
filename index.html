@@ -1,317 +1,397 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<title>Tiaraa Andini Store X Liviaa Mandiri</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Tiaraa & Liviaa Mandiri Store — Aesthetic Shop</title>
 <style>
-body {
-  margin: 0;
-  font-family: "Poppins", sans-serif;
-  background: #ffe4f2;
-}
+  :root{
+    --pink:#ffbfd3; --pink-600:#ff8fb0; --accent:#ff6f98; --muted:#6b6b6b;
+    --bg:#fff7fb; --card:#ffffff; --shadow: 0 10px 30px rgba(19,18,33,0.08);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+    background: linear-gradient(180deg,var(--bg),#fff); color:#1a1a1a;
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    padding-bottom:80px;
+  }
 
-/* LOGIN BLUR */
-#loginPage {
-  position: fixed;
-  inset: 0;
-  backdrop-filter: blur(8px);
-  background: rgba(255, 182, 220, 0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
+  /* ========== Running / Fraud Notice ========== */
+  .fraud-notif{
+    position:sticky; top:0; z-index:60; background:#fff0f0; color:#8a0b0b;
+    border-bottom:1px solid rgba(138,11,11,0.06); display:flex; align-items:center;
+    justify-content:center; gap:10px; padding:8px 12px; font-weight:700;
+  }
+  .fraud-notif button{background:transparent;border:1px solid rgba(0,0,0,0.06);padding:6px 8px;border-radius:8px;cursor:pointer}
 
-.login-box {
-  background: white;
-  padding: 25px;
-  border-radius: 16px;
-  max-width: 320px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  text-align: center;
-}
+  /* ========== Marquee (welcome) ========== */
+  .marquee{background:linear-gradient(90deg,var(--pink),var(--pink-600)); color:white;padding:10px 0;font-weight:700;overflow:hidden}
+  .marquee .inner{display:inline-block;padding-left:100%;animation:marq 14s linear infinite}
+  @keyframes marq{from{transform:translateX(0)}to{transform:translateX(-100%)}}
 
-/* RUNNING TEXT */
-#runningText {
-  background: #ff9dc9;
-  color: white;
-  padding: 10px 0;
-  font-weight: 600;
-  white-space: nowrap;
-  overflow: hidden;
-}
+  /* ========== Container / header ========== */
+  .wrap{max-width:1150px;margin:18px auto;padding:0 18px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:10px 0}
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--pink),var(--accent));display:flex;align-items:center;justify-content:center;color:white;font-weight:800}
+  .socials{display:flex;gap:10px;align-items:center}
+  .iconbtn{width:40px;height:40px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:white;box-shadow:var(--shadow);cursor:pointer;text-decoration:none;color:inherit}
 
-#runningText span {
-  display: inline-block;
-  padding-left: 100%;
-  animation: run 12s linear infinite;
-}
+  /* ========== Store row / cards ========== */
+  .hero{display:flex;align-items:center;gap:18px;background:linear-gradient(180deg,rgba(255,255,255,0.7),rgba(255,255,255,0.45));border-radius:14px;padding:18px;box-shadow:var(--shadow)}
+  .store-row{display:flex;gap:14px;overflow-x:auto;padding:18px 0;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+  .card{min-width:200px;width:200px;background:var(--card);border-radius:12px;padding:12px;box-shadow:0 8px 20px rgba(19,18,33,0.06);scroll-snap-align:start}
+  .card img{width:100%;height:140px;object-fit:cover;border-radius:10px}
+  .card h4{margin:8px 0 4px 0;font-size:15px}
+  .price{color:var(--accent);font-weight:700}
 
-@keyframes run {
-  from { transform: translateX(0); }
-  to { transform: translateX(-100%); }
-}
+  /* ========== Cart box ========== */
+  #cartBox{background:white;padding:16px;border-radius:12px;box-shadow:var(--shadow);margin:18px 0;max-width:420px}
+  #checkoutBtn{width:100%;padding:12px;border-radius:10px;border:none;background:linear-gradient(90deg,var(--pink-600),var(--accent));color:white;font-weight:800;cursor:pointer}
 
-/* ETALASE */
-.store-row {
-  display: flex;
-  overflow-x: auto;
-  gap: 14px;
-  padding: 18px;
-  scroll-behavior: smooth;
-}
+  /* ========== Checkout Popup ========== */
+  #checkoutPopup{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:none;align-items:center;justify-content:center;z-index:9999;backdrop-filter:blur(4px)}
+  .popup{background:white;border-radius:12px;padding:18px;max-width:380px;width:90%;box-shadow:0 30px 60px rgba(0,0,0,0.18);text-align:center}
+  .popup img{width:100%;border-radius:10px}
+  .popup .btn{margin-top:10px;padding:10px;border-radius:10px;border:none;cursor:pointer;font-weight:700}
+  .btn-verify{background:linear-gradient(90deg,var(--pink-600),var(--accent));color:white}
+  .btn-close{background:#eee;color:#333}
 
-.card {
-  min-width: 170px;
-  background: white;
-  border-radius: 14px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-  padding: 12px;
-  text-align: center;
-}
+  /* ========== Report Modal ========= */
+  #reportModal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);z-index:9998;backdrop-filter:blur(3px)}
+  .report-box{background:white;padding:18px;border-radius:12px;max-width:520px;width:92%;box-shadow:var(--shadow)}
+  .file-preview{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap}
+  .file-preview img, .file-preview video{max-width:120px;border-radius:8px;max-height:90px;object-fit:cover;border:1px solid #eee}
 
-.card img {
-  width: 100%;
-  border-radius: 12px;
-}
+  /* ========== CS WA button & YouTube ========== */
+  .cs-wa{position:fixed;right:18px;bottom:18px;z-index:10000;display:flex;flex-direction:column;gap:10px;align-items:flex-end}
+  .cs-btn{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--accent));display:flex;align-items:center;justify-content:center;color:white;font-weight:800;box-shadow:0 14px 30px rgba(255,111,152,0.18);cursor:pointer;text-decoration:none}
+  .cs-label{font-size:12px;color:#333;background:white;padding:8px 10px;border-radius:10px;box-shadow:var(--shadow);margin-bottom:6px}
 
-.btn {
-  background: #ff73a6;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 10px;
-  font-size: 14px;
-  border: none;
-  cursor: pointer;
-  margin-top: 8px;
-}
+  /* ========== Watermark ========== */
+  .watermark{position:fixed;right:14px;bottom:14px;z-index:9999;pointer-events:none;opacity:0.9}
+  .wm-box{background:linear-gradient(90deg,rgba(255,111,152,0.08),rgba(255,177,205,0.06));padding:8px 12px;border-radius:10px;font-weight:700;color:var(--accent);box-shadow:0 8px 20px rgba(0,0,0,0.06);animation:glow 3s ease-in-out infinite}
+  @keyframes glow{0%{transform:translateY(0)}50%{transform:translateY(-4px)}100%{transform:translateY(0)}}
 
-/* CART */
-#cartBox {
-  margin: 20px;
-  background: white;
-  padding: 18px;
-  border-radius: 16px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.09);
-}
-
-#checkoutBtn {
-  width: 100%;
-  padding: 12px;
-  background: #ff6fa1;
-  color: white;
-  border-radius: 12px;
-  font-weight: 700;
-  border: none;
-  cursor: pointer;
-}
-
-/* POPUP CHECKOUT */
-#checkoutPopup {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.45);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 99999;
-  backdrop-filter: blur(4px);
-}
-
-.popup-box {
-  background: white;
-  padding: 20px;
-  border-radius: 16px;
-  width: 90%;
-  max-width: 350px;
-  text-align: center;
-  animation: fadeIn .3s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-.popup-btn {
-  width: 100%;
-  padding: 10px;
-  margin-top: 12px;
-  border: none;
-  border-radius: 10px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
+  /* ========== Small helpers ========= */
+  .top-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px}
+  a {color:inherit}
+  .hide{display:none}
+  @media (max-width:860px){
+    .card{min-width:80%}
+    .hero{flex-direction:column;align-items:flex-start}
+  }
 </style>
 </head>
 <body>
 
-<!-- LOGIN PAGE -->
-<div id="loginPage">
-  <div class="login-box">
-    <h2>Login Aktivasi</h2>
-    <p>Minta kode ke Admin WA:<br><b>+1 (365) 870-0681</b></p>
-    <input id="kodeInput" type="password" placeholder="Masukkan Kode" style="
-      padding:10px;width:100%;border-radius:10px;border:1px solid #ccc;margin-top:10px;
-    ">
-    <button onclick="cekKode()" style="
-      margin-top:12px;padding:10px;width:100%;background:#ff7fb3;color:white;
-      border:none;border-radius:10px;font-weight:600;
-    ">Login</button>
-    <p id="loginMsg" style="color:red;font-size:13px;margin-top:6px;"></p>
-  </div>
+<!-- FRAUD NOTICE (dismissible) -->
+<div id="fraud" class="fraud-notif" role="status">
+  ⚠️ Hari ini terjadi banyak penipuan — harap berhati-hati saat bertransaksi.
+  <button onclick="document.getElementById('fraud').style.display='none'">Tutup</button>
 </div>
 
-<!-- RUNNING TEXT -->
-<div id="runningText">
-  <span>Hallo Selamat Datang Kembali Di Sini — Selamat Berbelanja — Hallo Selamat Datang Kembali Di Sini — Selamat Berbelanja —</span>
-</div>
+<!-- MARQUEE WELCOME -->
+<div class="marquee" aria-hidden="false"><div class="inner">Hallo Selamat Datang Kembali Di Sini — Selamat Berbelanja — Hallo Selamat Datang Kembali Di Sini — Selamat Berbelanja</div></div>
 
-<h2 style="text-align:center;margin-top:18px;">✨ Etalase Produk ✨</h2>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="logo">TL</div>
+      <div>
+        <div style="font-weight:800">Tiaraa & Liviaa Mandiri Store</div>
+        <div style="font-size:13px;color:var(--muted)">Estetik • Aesthetic • Cantik</div>
+      </div>
+    </div>
 
-<!-- 6 PRODUK -->
-<div class="store-row">
+    <div class="socials" aria-hidden="false">
+      <!-- YouTube (placeholder link) -->
+      <a class="iconbtn" href="https://youtube.com" target="_blank" title="YouTube Channel" aria-label="YouTube Channel">
+        <svg width="18" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 15V9l6 3-6 3z" fill="#ff4b4b"/><rect x="2" y="4" width="20" height="16" rx="4" stroke="#ff4b4b" stroke-width="1.2"/></svg>
+      </a>
 
-  <div class="card" data-id="1">
-    <img src="https://via.placeholder.com/200x200?text=Produk+1">
-    <h4>Produk 1</h4>
-    <p>Rp 25.000</p>
-    <button class="btn" data-action="add">Tambah</button>
+      <!-- Report Fraud button -->
+      <button class="iconbtn" id="reportBtn" title="Laporkan Penipuan" aria-label="Laporkan Penipuan">!</button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" aria-label="Hero">
+    <div style="flex:1">
+      <h2 style="margin:0 0 6px 0">Highlight Koleksi Musim Ini</h2>
+      <div style="color:var(--muted)">Produk curated dan aesthetic. Geser etalase di bawah untuk melihat.</div>
+    </div>
+    <div style="width:120px;height:84px;border-radius:12px;background:linear-gradient(135deg,#fff0f7,#fff7fb);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(255,111,152,0.08)">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none"><circle cx="8" cy="9" r="2.2" fill="#ff8fb0"/><circle cx="16" cy="14" r="2.2" fill="#ffc3d6"/></svg>
+    </div>
+  </section>
+
+  <!-- Etalase horizontal (6 produk) -->
+  <h3 style="margin-top:18px">Koleksi Pilihan</h3>
+  <div class="store-row" id="productRow" role="list">
+    <!-- product cards -->
+    <article class="card" role="listitem" data-id="1">
+      <img src="https://via.placeholder.com/400x300?text=Produk+1" alt="Produk 1">
+      <h4>Produk 1</h4><div class="price">Rp 25.000</div>
+      <button class="btn" data-action="add">Tambah</button>
+    </article>
+
+    <article class="card" data-id="2"><img src="https://via.placeholder.com/400x300?text=Produk+2" alt=""><h4>Produk 2</h4><div class="price">Rp 30.000</div><button class="btn" data-action="add">Tambah</button></article>
+
+    <article class="card" data-id="3"><img src="https://via.placeholder.com/400x300?text=Produk+3" alt=""><h4>Produk 3</h4><div class="price">Rp 35.000</div><button class="btn" data-action="add">Tambah</button></article>
+
+    <article class="card" data-id="4"><img src="https://via.placeholder.com/400x300?text=Produk+4" alt=""><h4>Produk 4</h4><div class="price">Rp 40.000</div><button class="btn" data-action="add">Tambah</button></article>
+
+    <article class="card" data-id="5"><img src="https://via.placeholder.com/400x300?text=Produk+5" alt=""><h4>Produk 5</h4><div class="price">Rp 50.000</div><button class="btn" data-action="add">Tambah</button></article>
+
+    <article class="card" data-id="6"><img src="https://via.placeholder.com/400x300?text=Produk+6" alt=""><h4>Produk 6</h4><div class="price">Rp 60.000</div><button class="btn" data-action="add">Tambah</button></article>
   </div>
 
-  <div class="card" data-id="2">
-    <img src="https://via.placeholder.com/200x200?text=Produk+2">
-    <h4>Produk 2</h4>
-    <p>Rp 30.000</p>
-    <button class="btn" data-action="add">Tambah</button>
+  <!-- Cart summary -->
+  <div id="cartBox" aria-live="polite">
+    <h4>Ringkasan Pembelian</h4>
+    <div style="display:flex;justify-content:space-between"><span>Total Barang:</span><strong id="cartCount">0</strong></div>
+    <div style="display:flex;justify-content:space-between;margin-top:8px"><span>Total Pembayaran:</span><strong id="cartTotal">Rp 0</strong></div>
+    <div style="margin-top:12px;display:flex;gap:10px">
+      <button id="checkoutBtn" style="flex:1;padding:10px;border-radius:10px;border:none;background:linear-gradient(90deg,var(--pink-600),var(--accent));color:white;font-weight:800;cursor:pointer">Checkout</button>
+      <button id="viewCartBtn" style="padding:10px;border-radius:10px;border:1px solid #eee;background:white;cursor:pointer">Keranjang Saya</button>
+    </div>
   </div>
 
-  <div class="card" data-id="3">
-    <img src="https://via.placeholder.com/200x200?text=Produk+3">
-    <h4>Produk 3</h4>
-    <p>Rp 35.000</p>
-    <button class="btn" data-action="add">Tambah</button>
+  <!-- Payment section (keystroke: hidden on page until checkout popup) -->
+  <div id="payments" class="hide" style="margin-top:12px">
+    <div style="background:white;padding:12px;border-radius:12px;box-shadow:var(--shadow)">
+      <strong>Metode Pembayaran</strong>
+      <div style="margin-top:8px;font-size:13px;color:var(--muted)">QRIS (scan pada popup checkout)</div>
+    </div>
   </div>
 
-  <div class="card" data-id="4">
-    <img src="https://via.placeholder.com/200x200?text=Produk+4">
-    <h4>Produk 4</h4>
-    <p>Rp 40.000</p>
-    <button class="btn" data-action="add">Tambah</button>
-  </div>
-
-  <div class="card" data-id="5">
-    <img src="https://via.placeholder.com/200x200?text=Produk+5">
-    <h4>Produk 5</h4>
-    <p>Rp 50.000</p>
-    <button class="btn" data-action="add">Tambah</button>
-  </div>
-
-  <div class="card" data-id="6">
-    <img src="https://via.placeholder.com/200x200?text=Produk+6">
-    <h4>Produk 6</h4>
-    <p>Rp 60.000</p>
-    <button class="btn" data-action="add">Tambah</button>
-  </div>
-
-</div>
-
-<!-- CART -->
-<div id="cartBox">
-  <h3>Ringkasan Pembelian</h3>
-
-  <div style="display:flex;justify-content:space-between;">
-    <span>Total Barang:</span> <span id="cartCount">0</span>
-  </div>
-
-  <div style="display:flex;justify-content:space-between;margin:10px 0;font-weight:700;">
-    <span>Total Pembayaran:</span> <span id="cartTotal">Rp 0</span>
-  </div>
-
-  <button id="checkoutBtn">Checkout</button>
-</div>
+</div> <!-- end wrap -->
 
 <!-- CHECKOUT POPUP -->
-<div id="checkoutPopup">
-  <div class="popup-box">
+<div id="checkoutPopup" role="dialog" aria-modal="true">
+  <div class="popup">
     <h3>QRIS Pembayaran</h3>
-    <p>Total Pembayaran:</p>
-    <h2 id="popupTotal" style="margin-top:-8px;margin-bottom:12px;">Rp 0</h2>
+    <div style="margin-top:6px;color:var(--muted)">Silakan scan lalu klik "Verifikasi ke Admin" jika sudah bayar.</div>
+    <div style="margin:12px 0;font-weight:800;font-size:18px" id="popupTotal">Rp 0</div>
+    <img src="https://files.catbox.moe/88oh6r.jpg" alt="qris-shop.png">
+    <button class="popup btn btn-verify" id="verifyToAdmin">Verifikasi ke Admin</button>
+    <button class="popup btn btn-close" onclick="closeCheckout()">Tutup</button>
+  </div>
+</div>
 
-    <!-- QRIS -->
-    <img src="182c731b-7845-47c7-a6f8-ba673d466321.jpeg" alt="qris-shop.png" style="
-      width:100%;border-radius:14px;
-    ">
+<!-- REPORT MODAL (Laporkan Penipuan) -->
+<div id="reportModal" aria-modal="true" role="dialog">
+  <div class="report-box">
+    <h3>Laporkan Penipuan</h3>
+    <div style="color:var(--muted);font-size:13px;margin-top:6px">Unggah bukti (gambar/video) dan tambahkan deskripsi singkat.</div>
 
-    <button class="popup-btn" style="background:#ff6fa1;color:white;">Sudah Bayar</button>
-    <button onclick="closePopup()" class="popup-btn" style="
-      background:#ddd;
-    ">Tutup</button>
+    <input id="reportFile" type="file" accept="image/*,video/*" style="margin-top:10px">
+    <textarea id="reportDesc" placeholder="Deskripsi penipuan..." style="width:100%;margin-top:10px;padding:8px;border-radius:8px;border:1px solid #eee"></textarea>
+
+    <div class="file-preview" id="filePreview"></div>
+
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button id="sendReport" style="flex:1;padding:10px;border-radius:10px;border:none;background:linear-gradient(90deg,var(--pink-600),var(--accent));color:white;font-weight:800;cursor:pointer">Notify Admin</button>
+      <button onclick="closeReport()" style="padding:10px;border-radius:10px;border:1px solid #eee;background:white;cursor:pointer">Tutup</button>
+    </div>
+
+    <div style="font-size:12px;color:var(--muted);margin-top:8px">
+      Catatan: Form ini menyimpan bukti di browser (demo). Untuk mengirim file ke admin, klik "Notify Admin" lalu lampirkan file saat chat WA.
+    </div>
+  </div>
+</div>
+
+<!-- CS / WA Floating -->
+<div class="cs-wa" aria-hidden="false">
+  <div class="cs-label">Butuh Bantuan? CS via WA</div>
+  <a class="cs-btn" id="csWA" href="https://wa.me/13658700681?text=Saya%20butuh%20bantuan%20dari%20CS%20Tiaraa%20%26%20Liviaa" target="_blank" aria-label="Hubungi Customer Service WA">WA</a>
+</div>
+
+<!-- WATERMARK -->
+<div class="watermark" aria-hidden="true">
+  <div class="wm-box">© Copyright 2025 Tiara &amp; Liviaa Mandiri Store</div>
+</div>
+
+<!-- LOGIN overlay (simple demo: code = ACTIVATE2025) -->
+<div id="loginBackdrop" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.35);z-index:99999">
+  <div style="background:white;padding:18px;border-radius:12px;max-width:380px;width:90%;text-align:center;box-shadow:var(--shadow)">
+    <h3>Login — Kode Aktivasi</h3>
+    <div style="color:var(--muted);font-size:13px;margin-bottom:8px">Masukkan kode yang diberikan admin (hubungi WA: <a href="https://wa.me/13658700681" target="_blank">+1 (365) 870-0681</a>)</div>
+    <input id="activation" placeholder="Masukan kode aktivasi" style="width:100%;padding:10px;border-radius:8px;border:1px solid #eee">
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button id="verifyCode" style="flex:1;padding:10px;border-radius:8px;border:none;background:linear-gradient(90deg,var(--pink-600),var(--accent));color:white;font-weight:700">Verifikasi</button>
+      <button id="reqCode" style="padding:10px;border-radius:8px;border:1px solid #eee;background:white">Minta via WA</button>
+    </div>
+    <div style="font-size:12px;color:var(--muted);margin-top:10px">Contoh kode demo: <code>ACTIVATE2025</code></div>
   </div>
 </div>
 
 <script>
-// LOGIN
-function cekKode() {
-  let kode = document.getElementById("kodeInput").value;
-  if (kode === "12345") {
-    document.getElementById("loginPage").style.display = "none";
-  } else {
-    document.getElementById("loginMsg").textContent = "Kode salah. Minta ke admin!";
-  }
-}
-
-// DATA PRODUK
+/* ---------- Demo product data ---------- */
 const products = [
-  { id: 1, name: "Produk 1", price: 25000 },
-  { id: 2, name: "Produk 2", price: 30000 },
-  { id: 3, name: "Produk 3", price: 35000 },
-  { id: 4, name: "Produk 4", price: 40000 },
-  { id: 5, name: "Produk 5", price: 50000 },
-  { id: 6, name: "Produk 6", price: 60000 }
+  {id:1,name:'Produk 1',price:25000},
+  {id:2,name:'Produk 2',price:30000},
+  {id:3,name:'Produk 3',price:35000},
+  {id:4,name:'Produk 4',price:40000},
+  {id:5,name:'Produk 5',price:50000},
+  {id:6,name:'Produk 6',price:60000},
 ];
 
 let cart = [];
 
-// ADD CART
-document.querySelectorAll('[data-action="add"]').forEach(btn => {
-  btn.addEventListener("click", (e) => {
-    const id = Number(e.target.closest(".card").getAttribute("data-id"));
-    const item = products.find(p => p.id === id);
-    cart.push(item);
-    updateCart();
+/* ---------- Add to cart ---------- */
+document.querySelectorAll('[data-action="add"]').forEach(btn=>{
+  btn.addEventListener('click', (e)=>{
+    // require login first
+    if(document.getElementById('loginBackdrop').style.display !== 'none'){
+      alert('Silakan verifikasi kode aktivasi dulu (login).');
+      return;
+    }
+    const id = Number(e.target.closest('.card').getAttribute('data-id'));
+    const p = products.find(x=>x.id===id);
+    cart.push(p);
+    updateCartUI();
+    toast(`${p.name} ditambahkan ke keranjang.`);
   });
 });
 
-// UPDATE CART
-function updateCart() {
-  document.getElementById("cartCount").textContent = cart.length;
-
-  let total = cart.reduce((a,b)=> a + b.price, 0);
-  document.getElementById("cartTotal").textContent = "Rp " + total.toLocaleString("id-ID");
+function updateCartUI(){
+  const count = cart.length;
+  const total = cart.reduce((s,i)=>s+i.price,0);
+  document.getElementById('cartCount').textContent = count;
+  document.getElementById('cartTotal').textContent = 'Rp ' + total.toLocaleString('id-ID');
 }
 
-// CHECKOUT
-document.getElementById("checkoutBtn").addEventListener("click", () => {
-  if (cart.length === 0) {
-    alert("Keranjang masih kosong.");
-    return;
-  }
-
-  let total = cart.reduce((a,b)=> a + b.price, 0);
-  document.getElementById("popupTotal").textContent = "Rp " + total.toLocaleString("id-ID");
-
-  document.getElementById("checkoutPopup").style.display = "flex";
+/* ---------- Checkout popup ---------- */
+const checkoutBtn = document.getElementById('checkoutBtn');
+checkoutBtn.addEventListener('click', ()=>{
+  if(cart.length === 0){ alert('Keranjang kosong. Tambahkan produk dulu.'); return; }
+  const total = cart.reduce((s,i)=>s+i.price,0);
+  document.getElementById('popupTotal').textContent = 'Rp ' + total.toLocaleString('id-ID');
+  document.getElementById('checkoutPopup').style.display = 'flex';
 });
 
-function closePopup() {
-  document.getElementById("checkoutPopup").style.display = "none";
+/* Verify to admin button in popup */
+document.getElementById('verifyToAdmin').addEventListener('click', ()=>{
+  const total = cart.reduce((s,i)=>s+i.price,0);
+  const msg = encodeURIComponent(`Halo admin, saya sudah transfer untuk total ${'Rp ' + total.toLocaleString('id-ID')}. Mohon verifikasi.\nNama toko: Tiaraa & Liviaa Mandiri Store`);
+  window.open(`https://wa.me/13658700681?text=${msg}`, '_blank');
+});
+
+/* close checkout */
+function closeCheckout(){ document.getElementById('checkoutPopup').style.display = 'none' }
+
+/* ---------- Login logic (demo client-side) ---------- */
+document.getElementById('verifyCode').addEventListener('click', ()=>{
+  const v = document.getElementById('activation').value.trim();
+  if(!v){ alert('Masukan kode aktivasi.'); return; }
+  // demo valid code
+  if(v === 'ACTIVATE2025'){
+    document.getElementById('loginBackdrop').style.display = 'none';
+    toast('Login sukses — selamat berjualan!');
+  } else {
+    alert('Kode tidak valid. Minta kode ke admin WA.');
+  }
+});
+document.getElementById('reqCode').addEventListener('click', ()=> {
+  window.open('https://wa.me/13658700681?text=Saya%20minta%20kode%20aktivasi%20untuk%20akses%20toko.', '_blank');
+});
+
+/* ---------- Toast (simple) ---------- */
+function toast(msg){
+  const t = document.createElement('div');
+  t.textContent = msg;
+  Object.assign(t.style,{position:'fixed',left:'50%',transform:'translateX(-50%)',bottom:'80px',background:'linear-gradient(90deg,var(--pink-600),var(--accent))',color:'#fff',padding:'10px 14px',borderRadius:'12px',boxShadow:'0 12px 30px rgba(0,0,0,0.12)',zIndex:100000,opacity:0,transition:'opacity 250ms,transform 250ms'});
+  document.body.appendChild(t);
+  requestAnimationFrame(()=>{ t.style.opacity=1; t.style.transform='translateX(-50%) translateY(-6px)'; });
+  setTimeout(()=>{ t.style.opacity=0; t.style.transform='translateX(-50%) translateY(0)'; setTimeout(()=>t.remove(),300); },2000);
 }
 
-</script>
+/* ---------- Report modal (lapor penipuan) ---------- */
+const reportBtn = document.getElementById('reportBtn');
+const reportModal = document.getElementById('reportModal');
+const reportFile = document.getElementById('reportFile');
+const filePreview = document.getElementById('filePreview');
+const reportDesc = document.getElementById('reportDesc');
+const sendReport = document.getElementById('sendReport');
 
+reportBtn.addEventListener('click', ()=> openReport());
+function openReport(){ reportModal.style.display = 'flex'; filePreview.innerHTML=''; reportFile.value=''; reportDesc.value=''; }
+
+function closeReport(){ reportModal.style.display = 'none' }
+window.closeReport = closeReport; // expose
+
+reportFile.addEventListener('change', (e)=>{
+  filePreview.innerHTML = '';
+  const f = e.target.files[0];
+  if(!f) return;
+  const url = URL.createObjectURL(f);
+  if(f.type.startsWith('image/')){
+    const img = document.createElement('img'); img.src = url; filePreview.appendChild(img);
+  } else if(f.type.startsWith('video/')){
+    const vid = document.createElement('video'); vid.src = url; vid.controls = true; vid.style.maxWidth='220px'; filePreview.appendChild(vid);
+  } else {
+    const p = document.createElement('div'); p.textContent = f.name; filePreview.appendChild(p);
+  }
+});
+
+/* When user clicks Notify Admin: build message and open WA (can't attach file automatically) */
+sendReport.addEventListener('click', ()=>{
+  const f = reportFile.files[0];
+  const desc = reportDesc.value.trim();
+  if(!f && !desc){ alert('Tambahkan bukti atau deskripsi.'); return; }
+
+  // If file exists, create object URL and offer download link for user to attach manually.
+  let fileNote = '';
+  if(f){
+    // Create a temporary downloadable link in browser and instruct user to attach file manually to WA
+    const blobUrl = URL.createObjectURL(f);
+    fileNote = `\nBukti: ${f.name} (silakan download dan lampirkan saat chat)`;
+    // create small download helper (not auto-sent)
+    const dl = document.createElement('a');
+    dl.href = blobUrl;
+    dl.download = f.name;
+    dl.textContent = 'Download bukti (klik untuk simpan)';
+    dl.style.display = 'inline-block';
+    dl.style.marginTop = '8px';
+    dl.style.fontSize = '13px';
+    dl.style.color = '#0077ff';
+    filePreview.appendChild(dl);
+  }
+
+  const text = encodeURIComponent(`LAPORAN PENIPUAN\nDeskripsi: ${desc || '-'}${fileNote}\nToko: Tiaraa & Liviaa Mandiri Store`);
+  // Open WA with message; user must attach file manually if needed
+  window.open(`https://wa.me/13658700681?text=${text}`, '_blank');
+
+  toast('Opened chat WA admin. Silakan lampirkan bukti pada chat jika ada.');
+  // keep modal open so user can download file if needed
+});
+
+/* ---------- CS WA floating (already anchor) ---------- */
+
+/* ---------- Small: View Cart button scroll ---------- */
+document.getElementById('viewCartBtn').addEventListener('click', ()=>{
+  // open checkout popup if cart not empty, else show toast
+  if(cart.length === 0){ toast('Keranjang kosong.'); return; }
+  const total = cart.reduce((s,i)=>s+i.price,0);
+  document.getElementById('popupTotal').textContent = 'Rp ' + total.toLocaleString('id-ID');
+  document.getElementById('checkoutPopup').style.display = 'flex';
+});
+
+/* ---------- Accessibility: Escape closes modals ---------- */
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape'){
+    closeCheckout();
+    closeReport();
+  }
+});
+
+/* ---------- Initial: keep loginBackdrop visible until verified ---------- */
+document.getElementById('loginBackdrop').style.display = 'flex';
+
+/* ---------- Done ---------- */
+</script>
 </body>
 </html>
